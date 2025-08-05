@@ -1,0 +1,258 @@
+<div class="min-h-screen bg-white">
+  <!-- Header -->
+  <header class="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+          </svg>
+          <span class="text-xl font-bold text-gray-900">LicitaIA</span>
+        </div>
+
+        <nav class="hidden md:flex items-center space-x-8">
+          <a href="#funcionalidades" class="text-gray-600 hover:text-gray-900 transition-colors">Funcionalidades</a>
+          <a href="#precios" class="text-gray-600 hover:text-gray-900 transition-colors">Precios</a>
+          <a href="#recursos" class="text-gray-600 hover:text-gray-900 transition-colors">Recursos</a>
+          <a href="#contacto" class="text-gray-600 hover:text-gray-900 transition-colors">Contacto</a>
+        </nav>
+
+        <div class="flex items-center space-x-4">
+          <button (click)="onLogin()" class="hidden sm:inline-flex px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors">
+            Iniciar Sesión
+          </button>
+          <button (click)="onStartFree()" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+            Prueba Gratuita
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative py-20 sm:py-24 lg:py-32">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <div class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-50 text-blue-700 mb-4">
+          <svg class="mr-1 h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"></path>
+          </svg>
+          Powered by IA
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+          Licitaciones y alertas <span class="text-blue-600">inteligentes</span> para tu negocio
+        </h1>
+        
+        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          Plataforma modular con IA que analiza pliegos, genera alertas segmentadas por sector y CPV, y gestiona tus
+          oportunidades como un CRM profesional.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <button (click)="onStartFree()" class="bg-blue-600 text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center">
+            Empieza Gratis
+            <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </button>
+          <button (click)="onRequestDemo()" class="border border-gray-300 text-gray-700 px-8 py-3 rounded-md text-lg font-medium hover:bg-gray-50 transition-colors">
+            Solicitar Demo
+          </button>
+        </div>
+
+        <!-- Quick Search -->
+        <div class="max-w-2xl mx-auto">
+          <div class="flex gap-2">
+            <div class="relative flex-1">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+              <input 
+                [(ngModel)]="searchQuery"
+                type="text" 
+                placeholder="Buscar por CPV, palabra clave o entidad..." 
+                class="pl-10 h-12 w-full text-lg border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <button (click)="onSearch()" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">
+              Buscar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Tenders -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Licitaciones Recientes</h2>
+        <p class="text-gray-600 text-lg">Oportunidades actualizadas en tiempo real</p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div *ngFor="let tender of recentTenders" 
+             class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer p-6"
+             (click)="onViewTender(tender)">
+          <div class="flex justify-between items-start mb-4">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              {{ tender.category }}
+            </span>
+            <span class="text-sm text-gray-500">{{ tender.cpv }}</span>
+          </div>
+          
+          <h3 class="text-lg font-semibold text-gray-900 mb-2 leading-tight">{{ tender.title }}</h3>
+          <p class="text-gray-600 mb-4">{{ tender.entity }}</p>
+          
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="font-semibold text-green-600">{{ tender.amount }}</p>
+              <p class="text-sm text-gray-500">Plazo: {{ tender.deadline }}</p>
+            </div>
+            <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">
+              Ver detalles
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-8">
+        <button (click)="onViewAllTenders()" class="border border-gray-300 text-gray-700 px-6 py-3 rounded-md hover:bg-gray-50 transition-colors inline-flex items-center">
+          Ver todas las licitaciones
+          <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="funcionalidades" class="py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Todo lo que necesitas en un solo lugar</h2>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          Herramientas profesionales para maximizar tus oportunidades en contratación pública
+        </p>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        <div *ngFor="let feature of features" class="text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-lg mb-4">
+            <svg class="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path *ngIf="feature.icon === 'brain'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+              <path *ngIf="feature.icon === 'bell'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+              <path *ngIf="feature.icon === 'file-text'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              <path *ngIf="feature.icon === 'trending-up'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ feature.title }}</h3>
+          <p class="text-gray-600">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-16 bg-blue-600">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-8 md:grid-cols-4 text-center text-white">
+        <div *ngFor="let stat of stats">
+          <div class="text-4xl font-bold mb-2">{{ stat.value }}</div>
+          <div class="text-blue-100">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-4">Lo que dicen nuestros clientes</h2>
+      </div>
+
+      <div class="grid gap-8 md:grid-cols-2 max-w-4xl mx-auto">
+        <div *ngFor="let testimonial of testimonials" class="bg-white rounded-lg shadow-md p-6">
+          <p class="text-gray-600 mb-4 italic">"{{ testimonial.content }}"</p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gray-200 rounded-full mr-4"></div>
+            <div>
+              <p class="font-semibold text-gray-900">{{ testimonial.name }}</p>
+              <p class="text-sm text-gray-500">{{ testimonial.role }}, {{ testimonial.company }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-bold text-white mb-4">¿Listo para encontrar tu próxima oportunidad?</h2>
+      <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+        Únete a más de 1,200 empresas que ya confían en nuestra plataforma para crecer su negocio.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button (click)="onStartFree()" class="bg-blue-600 text-white px-8 py-3 rounded-md text-lg font-medium hover:bg-blue-700 transition-colors">
+          Comenzar Prueba Gratuita
+        </button>
+        <button (click)="onContactSales()" class="border border-gray-600 text-gray-300 px-8 py-3 rounded-md text-lg font-medium hover:bg-gray-800 transition-colors">
+          Hablar con Ventas
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-50 py-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-8 md:grid-cols-4">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+            <span class="text-lg font-bold text-gray-900">LicitaIA</span>
+          </div>
+          <p class="text-gray-600">La plataforma inteligente para contratación pública.</p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-900 mb-4">Producto</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Funcionalidades</a></li>
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Precios</a></li>
+            <li><a href="#" class="hover:text-gray-900 transition-colors">API</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-900 mb-4">Recursos</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Blog</a></li>
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Guías</a></li>
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Soporte</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-900 mb-4">Empresa</h3>
+          <ul class="space-y-2 text-gray-600">
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Sobre nosotros</a></li>
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Contacto</a></li>
+            <li><a href="#" class="hover:text-gray-900 transition-colors">Privacidad</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600">
+        <p>&copy; 2024 LicitaIA. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</div>
