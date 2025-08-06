@@ -1,0 +1,50 @@
+package com.licitaciones.modules.auth.services;
+
+import com.licitaciones.modules.user.entities.User;
+import com.licitaciones.modules.user.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Service
+public class AuthService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public User syncUserFromAuth0(Jwt jwt) {
+        String auth0Id = jwt.getSubject();
+        String email = jwt.getClaimAsString("email");
+        String name = jwt.getClaimAsString("name");
+
+        Optional<User> existingUser = userRepository.findByAuth0Id(auth0Id);
+
+        User user;
+        if (existingUser.isPresent()) {
+            user = existingUser.get();
+            user.setEmail(email);
+            user.setName(name);
+            user.setUpdatedAt(LocalDateTime.now());
+        } else {
+            user = new User();
+            user.setAuth0Id(auth0Id);
+            user.setEmail(email);
+            user.setName(name);
+            user.setCreatedAt(LocalDateTime.now());
+            user.setUpdatedAt(LocalDateTime.now());
+        }
+
+        return userRepository.save(user);
+    }
+
+    public User getUserProfile(String auth0Id) {
+        return userRepository.findByAuth0Id(auth0Id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "User not found"));
+    }
+}
