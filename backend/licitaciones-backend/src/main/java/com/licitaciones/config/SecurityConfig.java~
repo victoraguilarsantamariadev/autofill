@@ -17,16 +17,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/users/test").permitAll()      // Público para testing
-                        .requestMatchers("/api/auth/**").permitAll()         // Endpoints de auth públicos
-                        .requestMatchers("/api/auth/test-auth0").permitAll() // Test Auth0
-                        // NUEVOS endpoints para testing de type-fields
-                        .requestMatchers("/api/type-fields/test").permitAll() // Test crear type-field
-                        .requestMatchers("/api/type-fields").permitAll()      // Listar type-fields
-                        .requestMatchers("/api/type-fields/**").permitAll()   // Todos los endpoints de type-fields
-                        .anyRequest().authenticated()                         // Todo lo demás requiere JWT
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/test-auth0").permitAll()// Endpoints de auth públicos
+                        .anyRequest().authenticated()                        // Todo lo demás requiere JWT
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt(Customizer.withDefaults())                      // Validación JWT de Auth0
+                        .jwt(Customizer.withDefaults())                     // Validación JWT de Auth0
                 );
 
         return http.build();
